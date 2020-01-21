@@ -11,13 +11,13 @@ router.get("/", (req, res) => {
   db.select("*")
     .limit(limit)
     .orderBy(sortby, sortdir)
-    .from("vehicles")
+    .from("cars")
     .then(result => {
       res.status(200).json(result);
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({ message: "could not retrieve vehicles" });
+      res.status(500).json({ message: "could not retrieve cars" });
     });
 });
 
@@ -25,7 +25,7 @@ router.get("/:id", (req, res) => {
   const { id } = req.params;
 
   db.select("*")
-    .from("vehicles")
+    .from("cars")
     .where({ id })
     .first()
     .then(vehicle => {
@@ -88,7 +88,7 @@ router.post("/", (req, res) => {
     return;
   }
 
-  db("vehicles")
+  db("cars")
     .insert(data, "id")
 
     // another way of doing it,here up above
@@ -96,7 +96,7 @@ router.post("/", (req, res) => {
     //   .into("accounts")
     .then(ids => {
       const id = ids[0];
-      return db("vehicles")
+      return db("cars")
         .where({ id })
         .first()
         .then(vehicle => {
@@ -137,7 +137,7 @@ router.put("/:id", (req, res) => {
   //   return;
   // }
 
-  db("vehicles")
+  db("cars")
     .where({ id })
     .update(changes)
     .then(count => {
@@ -155,7 +155,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  db("vehicles")
+  db("cars")
     .where({ id: req.params.id })
     .del()
     .then(count => {
